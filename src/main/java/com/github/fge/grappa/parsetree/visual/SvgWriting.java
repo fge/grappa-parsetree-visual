@@ -6,11 +6,6 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
@@ -18,14 +13,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 
-public final class StringSizingTest
+public final class SvgWriting
 {
-    private static final String SAMPLESTRING
-        = new DummyNode().toString();
-    private static final int X_OFFSET = 10;
-    private static final int Y_OFFSET = 30;
-    private static final int VERTICAL_BOUND = 10;
-    private static final int HORIZONTAL_BOUND = 10;
+    private static final int XSTART = 10;
+    private static final int YSTART = 10;
+
     private static final Path OUTFILE;
 
     static {
@@ -33,28 +25,17 @@ public final class StringSizingTest
         if (s == null)
             throw new ExceptionInInitializerError("java.io.tmpdir not defined");
 
-        OUTFILE = Paths.get(s, "t.svg");
+        OUTFILE = Paths.get(s, "t2.svg");
     }
 
-    public void paint(final Graphics2D g2d)
+    private SvgWriting()
     {
-        final Font font = g2d.getFont();
-        final FontMetrics metrics = g2d.getFontMetrics(font);
-        final Rectangle2D bounds = metrics.getStringBounds(SAMPLESTRING, g2d);
-        final int rwidth = (int) bounds.getWidth() + HORIZONTAL_BOUND;
-        final int rheight = (int) bounds.getHeight() + VERTICAL_BOUND;
-        final Rectangle2D rect = new Rectangle(X_OFFSET, Y_OFFSET, rwidth,
-            rheight);
-        final int x = X_OFFSET + HORIZONTAL_BOUND / 2;
-        final int y = rheight / 2 + Y_OFFSET + VERTICAL_BOUND / 2;
-        g2d.draw(rect);
-        g2d.drawString(SAMPLESTRING, x, y);
+        throw new Error("no instantiation is permitted");
     }
 
-    public static void main(final String[] args)
+    public static void main(final String... args)
         throws IOException
     {
-
         // Get a DOMImplementation.
         final DOMImplementation domImpl =
             GenericDOMImplementation.getDOMImplementation();
@@ -66,9 +47,10 @@ public final class StringSizingTest
         // Create an instance of the SVG Generator.
         final SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
 
-        // Ask the test to render into the SVG Graphics2D implementation.
-        final StringSizingTest test = new StringSizingTest();
-        test.paint(svgGenerator);
+        final SvgParseNode node = new SvgParseNode(svgGenerator,
+            new DummyNode(), XSTART, YSTART);
+
+        node.render();
 
         try (
             final Writer out = Files.newBufferedWriter(OUTFILE);
@@ -84,6 +66,12 @@ public final class StringSizingTest
         private DummyNode()
         {
             super("foo", Collections.emptyList());
+        }
+
+        @Override
+        public String toString()
+        {
+            return "I suck at graphics, I said!";
         }
     }
 }
