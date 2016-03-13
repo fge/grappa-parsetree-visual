@@ -48,9 +48,9 @@ public final class SvgWriting
         final SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
 
         final SvgParseNode node = new SvgParseNode(svgGenerator,
-            new DummyNode(), XSTART, YSTART);
+            new DummyNode());
 
-        node.render();
+        node.render(XSTART, YSTART);
 
         try (
             final Writer out = Files.newBufferedWriter(OUTFILE);

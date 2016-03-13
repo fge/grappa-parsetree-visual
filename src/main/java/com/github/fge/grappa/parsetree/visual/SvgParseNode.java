@@ -21,19 +21,14 @@ public final class SvgParseNode
     private final Graphics2D graphics;
     private final String text;
 
-    private final int xStart;
-    private final int yStart;
     private final int rwidth;
     private final int rheight;
     private final int textXOffset;
     private final int textYOffset;
 
     @SuppressWarnings("ObjectToString")
-    public SvgParseNode(final Graphics2D graphics, final ParseNode node,
-        final int xStart, final int yStart)
+    public SvgParseNode(final Graphics2D graphics, final ParseNode node)
     {
-        this.xStart = xStart;
-        this.yStart = yStart;
         this.graphics = Objects.requireNonNull(graphics);
         text = Objects.requireNonNull(node).toString();
 
@@ -79,19 +74,29 @@ public final class SvgParseNode
         textYOffset = rheight / 2 + TOPMARGIN;
     }
 
-    public void render()
+    public void render(final int xStart, final int yStart)
     {
         final Shape rect = new Rectangle(xStart, yStart, rwidth, rheight);
         graphics.draw(rect);
         graphics.drawString(text, xStart + textXOffset, yStart + textYOffset);
     }
 
-    public Point getTopAttachPoint()
+    public int getWidth()
+    {
+        return rwidth;
+    }
+
+    public int getHeight()
+    {
+        return rheight;
+    }
+
+    public Point getTopAttachPoint(final int xStart, final int yStart)
     {
         return new Point(xStart + rwidth / 2, yStart);
     }
 
-    public Point getDownAttachPoint()
+    public Point getDownAttachPoint(final int xStart, final int yStart)
     {
         return new Point(xStart + rwidth / 2, yStart + rheight);
     }
