@@ -74,13 +74,6 @@ public final class SvgParseNode
         textYOffset = rheight / 2 + TOPMARGIN;
     }
 
-    public void render(final int xStart, final int yStart)
-    {
-        final Shape rect = new Rectangle(xStart, yStart, rwidth, rheight);
-        graphics.draw(rect);
-        graphics.drawString(text, xStart + textXOffset, yStart + textYOffset);
-    }
-
     public int getWidth()
     {
         return rwidth;
@@ -99,5 +92,12 @@ public final class SvgParseNode
     public Point getDownAttachPoint(final int xStart, final int yStart)
     {
         return new Point(xStart + rwidth / 2, yStart + rheight);
+    }
+
+    public void render(final int xStart, final int yStart)
+    {
+        final Shape rect = new Rectangle(xStart, yStart, rwidth, rheight);
+        graphics.draw(rect);
+        graphics.drawString(text, xStart + textXOffset, yStart + textYOffset);
     }
 }
