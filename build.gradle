@@ -21,7 +21,6 @@ repositories {
 
 dependencies {
     compile(group: "com.github.fge", name: "grappa", version: "[2.0.4,)");
-    compile(group: "batik", name: "batik-svggen", version: "1.6-1");
     compile(group: "com.github.chrisbrenton", name: "grappa-parsetree",
         version: "1.+");
     testCompile(group: "org.testng", name: "testng", version: "6.9.10") {
