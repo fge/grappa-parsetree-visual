@@ -10,19 +10,29 @@ public final class NodeTree
 {
     private static final int LEAF_SPACING = 5;
     private static final int SUBTREE_SPACING = 10;
+
     private final Graphics2D graphics;
-    private final SvgParseNode root;
+
+    private final SvgParseNode node;
     private final int rootWidth;
+
     private final List<NodeTree> children;
+    private final int childrenWidth;
 
     public NodeTree(final Graphics2D graphics, final ParseNode node)
     {
         this.graphics = graphics;
-        root = new SvgParseNode(graphics, node);
-        rootWidth = root.getWidth();
+        this.node = new SvgParseNode(graphics, node);
+        rootWidth = this.node.getWidth();
         children = node.getChildren().stream()
             .map(child -> new NodeTree(graphics, child))
             .collect(Collectors.toList());
+        childrenWidth = getChildrenWidth();
+    }
+
+    public SvgParseNode getNode()
+    {
+        return node;
     }
 
     public int getRootWidth()
@@ -30,19 +40,24 @@ public final class NodeTree
         return rootWidth;
     }
 
-    public int treeWidth()
+    public int getTreeWidth()
+    {
+        return Math.max(rootWidth, childrenWidth);
+    }
+
+    private int getChildrenWidth()
     {
         final int nrChildren = children.size();
 
         switch (nrChildren) {
             case 0:
-                return rootWidth;
+                return 0;
             case 1:
-                return Math.max(rootWidth, children.get(0).treeWidth());
+                return children.get(0).childrenWidth;
         }
 
         final int rawChildrenWidth = children.stream()
-            .mapToInt(NodeTree::treeWidth)
+            .mapToInt(NodeTree::getTreeWidth)
             .sum();
 
         final boolean allLeaves = children.stream()
@@ -51,7 +66,7 @@ public final class NodeTree
         final int spacingWidth = (nrChildren - 1) *
             (allLeaves ? LEAF_SPACING : SUBTREE_SPACING);
 
-        return Math.max(rootWidth, rawChildrenWidth + spacingWidth);
+        return rawChildrenWidth + spacingWidth;
     }
 
     private boolean isLeaf()
