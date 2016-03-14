@@ -13,12 +13,12 @@ import java.util.function.Function;
 public final class DotFileGenerator
     implements AutoCloseable
 {
-    private static final String DOT_PREFIX = "digraph {\n";
+    private static final String DOT_PREFIX = "graph {\n";
     private static final String DOT_SUFFIX = "}\n";
     private static final String NODE_FMT = "node%d";
     private static final String NODE_DECL_FMT
         = "%s[label=\"%s\", shape=box]\n";
-    private static final String RELATION_FMT = "%s -> %s\n";
+    private static final String RELATION_FMT = "%s -- %s\n";
 
     private final BufferedWriter writer;
     private final Function<ParseNode, String> nodeToLabel;
