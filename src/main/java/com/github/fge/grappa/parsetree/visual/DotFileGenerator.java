@@ -20,22 +20,29 @@ public final class DotFileGenerator
         = "%s[label=\"%s\", shape=box]\n";
     private static final String RELATION_FMT = "%s -- %s\n";
 
+    private final Path dotFile;
     private final BufferedWriter writer;
+    private final Path svgFile;
     private final Function<ParseNode, String> nodeToLabel;
     private final AtomicInteger nodeCount = new AtomicInteger();
 
-    public DotFileGenerator(final Path file,
+    public DotFileGenerator(final Path svgFile,
         final Function<ParseNode, String> nodeToLabel)
         throws IOException
     {
-        writer = Files.newBufferedWriter(file);
+        dotFile = Files.createTempFile("parsetree", ".dot");
+        writer = Files.newBufferedWriter(dotFile);
+
+        this.svgFile = Objects.requireNonNull(svgFile);
+        Files.deleteIfExists(svgFile);
+
         this.nodeToLabel = Objects.requireNonNull(nodeToLabel);
     }
 
-    public DotFileGenerator(final Path file)
+    public DotFileGenerator(final Path svgFile)
         throws IOException
     {
-        this(file, Object::toString);
+        this(svgFile, Object::toString);
     }
 
     public void render(final ParseNode node)
@@ -64,8 +71,25 @@ public final class DotFileGenerator
 
     @Override
     public void close()
-        throws IOException
+        throws IOException, InterruptedException
     {
         writer.close();
+
+        final ProcessBuilder pb = new ProcessBuilder("dot", "-Tsvg",
+            dotFile.toString());
+
+        pb.redirectOutput(svgFile.toFile());
+
+        final int retCode = pb.start().waitFor();
+
+        Files.delete(dotFile);
+
+        if (retCode != 0)
+            throw new IllegalStateException("invocation of the dot command"
+                + " ended up with non zero exit status " + retCode);
+
+        if (!Files.exists(svgFile))
+            throw new IllegalStateException("dot invocation succeeded but"
+                + " target file " + svgFile + " does not exist??");
     }
 }

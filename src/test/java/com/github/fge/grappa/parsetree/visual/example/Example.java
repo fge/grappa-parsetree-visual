@@ -15,11 +15,6 @@ import java.nio.file.Paths;
 public final class Example
 {
     /*
-     * The path to the DOT file
-     */
-    private static final Path DOTFILE;
-
-    /*
      * The path to the SVG file we want to generate
      */
     private static final Path SVGFILE;
@@ -28,7 +23,6 @@ public final class Example
         final String tmpdir = System.getProperty("java.io.tmpdir");
         if (tmpdir == null)
             throw new ExceptionInInitializerError("java.io.tmpdir not defined");
-        DOTFILE = Paths.get(tmpdir, "example.dot");
         SVGFILE = Paths.get(tmpdir, "example.svg");
     }
     private Example()
@@ -81,26 +75,9 @@ public final class Example
          * And render it.
          */
         try (
-            final DotFileGenerator generator = new DotFileGenerator(DOTFILE);
+            final DotFileGenerator generator = new DotFileGenerator(SVGFILE);
         ) {
             generator.render(node);
         }
-
-        /*
-         * Next, call the "dot" command from the graphviz package.
-         */
-        final ProcessBuilder pb = new ProcessBuilder("dot", "-Tsvg",
-            DOTFILE.toString());
-
-        /*
-         * Unfortunately, this command doesn't allow you to specify the output
-         * file you want, so we use a redirection instead.
-         */
-        pb.redirectOutput(SVGFILE.toFile());
-
-        /*
-         * Start the process and wait for it to end.
-         */
-        pb.start().waitFor();
     }
 }
