@@ -16,6 +16,11 @@ file](https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29) from
 the parse tree, then calls [Graphviz](http://www.graphviz.org)'s `dot` command
 to generate the SVG.
 
+## Requirements
+
+Apart from a Java 8 JRE, this program also requires that Graphviz be installed
+on the target machine, and that the `dot` command is available on your `PATH`.
+
 ## Status
 
 In progress.
