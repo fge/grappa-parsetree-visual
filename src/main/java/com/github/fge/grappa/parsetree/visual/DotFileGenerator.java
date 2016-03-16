@@ -60,7 +60,7 @@ public final class DotFileGenerator
         final int nodeNumber = nodeCount.getAndIncrement();
         final String nodeName = String.format(NODE_FMT, nodeNumber);
         final String decl = String.format(NODE_DECL_FMT, nodeName,
-            nodeToLabel.apply(node));
+            nodeToLabel.apply(node).replace("\"", "\\\""));
         writer.write(decl);
         if (parentNodeName != null)
             writer.write(String.format(RELATION_FMT, parentNodeName, nodeName));
