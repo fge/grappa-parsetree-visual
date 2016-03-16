@@ -5,7 +5,7 @@ project for the full text.
 
 This package requires Java 8 or later.
 
-The current version is **1.0.0**.
+The current version is **1.0.1**.
 
 ## What this is
 
@@ -30,7 +30,7 @@ Using gradle:
 ```groovy
 dependencies {
     compile(group: "com.github.fge", name: "grappa-parser-visual",
-        version: "1.0.0");
+        version: "1.0.1");
 }
 ```
 
@@ -41,7 +41,7 @@ Using maven:
     <dependency>
         <groupId>com.github.fge</groupId>
         <artifactId>grappa-parser-visual</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 </dependencies>
 ```

@@ -7,7 +7,7 @@ apply(plugin: "eclipse");
 
 group = "com.github.fge";
 description = "A library to obtain and visualize SVG representations of a parse tree";
-version = "1.0.1";
+version = "1.0.2-SNAPSHOT";
 
 def javaVersion = JavaVersion.VERSION_1_8;
 sourceCompatibility = javaVersion;
