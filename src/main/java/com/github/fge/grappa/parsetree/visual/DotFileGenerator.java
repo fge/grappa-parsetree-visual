@@ -42,7 +42,7 @@ public final class DotFileGenerator
     public DotFileGenerator(final Path svgFile)
         throws IOException
     {
-        this(svgFile, Object::toString);
+        this(svgFile, ParseNode::getValue);
     }
 
     public void render(final ParseNode node)
