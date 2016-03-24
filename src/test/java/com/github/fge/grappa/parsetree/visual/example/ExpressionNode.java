@@ -1,19 +1,22 @@
 package com.github.fge.grappa.parsetree.visual.example;
 
-import com.github.chrisbrenton.grappa.parsetree.nodes.ParseNode;
+
+import com.github.chrisbrenton.grappa.parsetree.node.MatchTextSupplier;
+import com.github.chrisbrenton.grappa.parsetree.node.ParseNode;
 
 import java.util.List;
 
 public final class ExpressionNode
     extends ParseNode
 {
-    public ExpressionNode(final String value, final List<ParseNode> children)
+    public ExpressionNode(final MatchTextSupplier supplier,
+        final List<ParseNode> children)
     {
-        super(value, children);
+        super(supplier, children);
     }
 
     @Override
-    public String toString()
+    public String getValue()
     {
         return "EXPRESSION";
     }

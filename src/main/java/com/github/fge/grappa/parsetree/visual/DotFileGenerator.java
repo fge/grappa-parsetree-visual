@@ -1,6 +1,7 @@
 package com.github.fge.grappa.parsetree.visual;
 
-import com.github.chrisbrenton.grappa.parsetree.nodes.ParseNode;
+
+import com.github.chrisbrenton.grappa.parsetree.node.ParseNode;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

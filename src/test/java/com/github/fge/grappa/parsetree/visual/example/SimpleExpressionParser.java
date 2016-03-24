@@ -1,6 +1,6 @@
 package com.github.fge.grappa.parsetree.visual.example;
 
-import com.github.chrisbrenton.grappa.parsetree.annotations.GenerateNode;
+import com.github.chrisbrenton.grappa.parsetree.node.GenerateNode;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 

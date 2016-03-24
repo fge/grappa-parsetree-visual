@@ -1,11 +1,11 @@
 package com.github.fge.grappa.parsetree.visual.example;
 
-import com.github.chrisbrenton.grappa.parsetree.listeners.ParseNodeConstructorRepository;
-import com.github.chrisbrenton.grappa.parsetree.listeners.ParseTreeListener;
-import com.github.chrisbrenton.grappa.parsetree.nodes.ParseNode;
+import com.github.chrisbrenton.grappa.parsetree.build.ParseNodeConstructorProvider;
+import com.github.chrisbrenton.grappa.parsetree.build.ParseTreeBuilder;
+import com.github.chrisbrenton.grappa.parsetree.node.ParseNode;
 import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.parsetree.visual.DotFileGenerator;
-import com.github.fge.grappa.run.ListeningParseRunner;
+import com.github.fge.grappa.run.ParseRunner;
 import com.github.fge.grappa.run.ParsingResult;
 
 import java.io.IOException;
@@ -41,17 +41,16 @@ public final class Example
          */
         final SimpleExpressionParser parser = Grappa.createParser(parserClass);
 
-        final ListeningParseRunner<Void> runner
-            = new ListeningParseRunner<>(parser.expression());
+        final ParseRunner<Void> runner = new ParseRunner<>(parser.expression());
 
         /*
          * Next, our parse tree builder.
          */
-        final ParseNodeConstructorRepository repository
-            = new ParseNodeConstructorRepository(parserClass);
+        final ParseNodeConstructorProvider provider
+            = new ParseNodeConstructorProvider(parserClass);
 
-        final ParseTreeListener<Void> listener
-            = new ParseTreeListener<>(repository);
+        final ParseTreeBuilder<Void> listener
+            = new ParseTreeBuilder<>(provider);
 
         /*
          * Not forgetting to register it to the runner, of course...
@@ -69,7 +68,7 @@ public final class Example
         /*
          * Get the root node...
          */
-        final ParseNode node = listener.getRootNode();
+        final ParseNode node = listener.getTree();
 
         /*
          * And render it.
