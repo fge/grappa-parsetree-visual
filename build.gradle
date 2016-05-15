@@ -16,7 +16,6 @@ targetCompatibility = javaVersion; // defaults to sourceCompatibility
 repositories {
     mavenCentral();
     jcenter();
-    mavenLocal();
 }
 
 dependencies {
@@ -31,7 +30,8 @@ dependencies {
         exclude(group: "org.yaml", module: "snakeyaml");
     };
     testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.19");
-    testCompile(group: "org.assertj", name: "assertj-core", version: "2.3.0");
+    testCompile(group: "org.assertj", name: "assertj-core",
+        version: "[3.4.1,)");
 }
 
 /*
